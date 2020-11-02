@@ -7,10 +7,7 @@ const operationFunctions = {
     '/': math.divide
 };
 
-const validateOperation =
-    (operation) => typeof operation === 'string'
-        && typeof operationFunctions[operation] === 'function'
-;
+const validateOperation = (operation) => typeof operation === 'string' && typeof operationFunctions[operation] === 'function';
 
 const performOperation = (numOne, numTwo, operation) => {
     if(!validateOperation(operation)) {
@@ -22,13 +19,12 @@ const performOperation = (numOne, numTwo, operation) => {
 
 exports.getOperation = (req) => {
     let { 'number-one': numOne, 'number-two': numTwo, operation } = req.query;
-    numOne = Number.parseFloat(numOne);
-    numTwo = Number.parseFloat(numTwo);
+    numOne = !isNaN(numOne) ? parseFloat(numOne) : numOne;
+    numTwo = !isNaN(numTwo) ? parseFloat(numTwo) : numTwo;
     return performOperation(numOne, numTwo, operation);
 }
 
 exports.postOperation = (req) => {
-    console.log('Entered operationService.postOperation');
     const { 'number-one': numOne, 'number-two': numTwo, operation } = req.body;
     return performOperation(numOne, numTwo, operation);
 }
