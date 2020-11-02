@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const statusCodes = require('http-status-codes');
 
-const apiVersion = require('./configs/versions');
 const appIndex = require('./routes/index');
 const errorMessages = require('./errors/messages');
 
@@ -19,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(apiVersion.v1, appIndex);
+app.use('/', appIndex);
 
 app.use(function(req, res, next) {
   res.status(statusCodes.NOT_FOUND).json({'error': errorMessages.routeNotFound});
